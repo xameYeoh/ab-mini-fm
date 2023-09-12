@@ -91,7 +91,7 @@ void readFile(const char* path) {
       }
       if (Serial.read() == '=') {
         RTCgettime();
-        Serial.printf("\nAirBeam3:%s%s\n%02dM/%02dD/%sY% 02dh:%02dm:%02ds %3.2fV(Not Averaged)\n", BLEmac.c_str(), firmwareversion.c_str(), months, days, printDigitsYear(years).c_str(), hours, mins, secs, round(analogRead(vmeas) * 1.2076904296875) / 1000.0);
+        Serial.printf("\nAirBeamMini:%s%s\n%02dM/%02dD/%sY% 02dh:%02dm:%02ds %3.2fV(Not Averaged)\n", BLEmac.c_str(), firmwareversion.c_str(), months, days, printDigitsYear(years).c_str(), hours, mins, secs, round(analogRead(vmeas) * 1.2076904296875) / 1000.0);
         file.close();
         Soft_Reset_ESP();
       }

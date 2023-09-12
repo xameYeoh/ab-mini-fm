@@ -27,7 +27,7 @@ String data1_3 = F(",\\\"time\\\":\\\"");
 //Data_2
 String data2 = F("}], \\\"sensor_package_name\\\":\\\"");
 //Add Sensor Package
-String data2_1 = F("\\\", \\\"sensor_name\\\":\\\"AirBeam3-");
+String data2_1 = F("\\\", \\\"sensor_name\\\":\\\"AirBeamMini-");
 //Add F || RH || PM
 String data2_2 = F("\\\", \\\"session_uuid\\\":\\\"");
 //Add UUID
@@ -155,7 +155,7 @@ String getData_2(int stream) {
   post_data = F("");
 
   post_data += data2;
-  post_data += F("AirBeam3-");
+  post_data += F("AirBeamMini-");
   post_data += BLEmac;
 
   post_data += data2_1;

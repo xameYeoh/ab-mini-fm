@@ -143,7 +143,7 @@ void sensor_average() {  //Average the number of readings taken
   SDstring = String(tempuuid + printDigits(avgmonths) + "/" + printDigits(avgdays) + "/" + printDigitsYear(avgyears) + "," + printDigits(avghours) + ":" + printDigits(avgmins) + ":" + printDigits(avgsecs) + "," + (int)PM1_0 + "," + (int)PM2_5 + "\n");
   /*Serial Monitor Output*/
   if (mode == 0 || mode == 1) {
-    Serial.printf("AirBeam3:%s%s %s ", BLEmac.c_str(), firmwareversion.c_str(), Vmeas(1).c_str());
+    Serial.printf("AirBeamMini:%s%s %s ", BLEmac.c_str(), firmwareversion.c_str(), Vmeas(1).c_str());
   }
   Serial.printf("%02dM/%02dD/%sY %02dh:%02dm:%02ds", avgmonths, avgdays, printDigitsYear(avgyears).c_str(), avghours, avgmins, avgsecs);
   if (mode == 0) {

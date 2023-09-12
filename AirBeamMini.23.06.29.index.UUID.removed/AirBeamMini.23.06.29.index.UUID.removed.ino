@@ -431,7 +431,7 @@ String printDigitsYear(byte digits) {
 }
 
 void Soft_Reset_ESP() {
-  Serial.println(("Soft Resetting AirBeam3"));
+  Serial.println(("Soft Resetting AirBeamMini"));
   delay(1000);
   EEPROM.commit();
   Serial.end();
@@ -541,8 +541,8 @@ char senddata(int data, char caseswitch) {
 
 // Function to Stream Bluetooth Data
 void stream_BLE_data() {
-  pCharacteristicPM1_0->setValue(String(String((int)PM1_0) + ";AirBeam3:" + BLEmac + ";AirBeam3-PM1;Particulate Matter;PM;micrograms per cubic meter;µg/m³;0;12;35;55;150").c_str());
-  pCharacteristicPM2_5->setValue(String(String((int)PM2_5) + ";AirBeam3:" + BLEmac + ";AirBeam3-PM2.5;Particulate Matter;PM;micrograms per cubic meter;µg/m³;0;12;35;55;150").c_str());
+  pCharacteristicPM1_0->setValue(String(String((int)PM1_0) + ";AirBeamMini:" + BLEmac + ";AirBeamMini-PM1;Particulate Matter;PM;micrograms per cubic meter;µg/m³;0;12;35;55;150").c_str());
+  pCharacteristicPM2_5->setValue(String(String((int)PM2_5) + ";AirBeamMini:" + BLEmac + ";AirBeamMini-PM2.5;Particulate Matter;PM;micrograms per cubic meter;µg/m³;0;12;35;55;150").c_str());
   pCharacteristicBatteryLevel->setValue(String(Vmeas(1)).c_str());
   delay(10);
   pCharacteristicPM1_0->notify();
@@ -680,10 +680,10 @@ void serial_debugger() {
   char b = Serial.read();
   if (b == '`' || b == '-' || b == '=' || b == '~' || b == '\\' || b == '/') {
     RTCgettime();
-    Serial.printf("\nAirBeam3:%s%s\n%02dM/%02dD/%sY% 02dh:%02dm:%02ds %3.2fV(Not Averaged)\n", BLEmac.c_str(), firmwareversion.c_str(), months, days, printDigitsYear(years).c_str(), hours, mins, secs, round(analogRead(vmeas) * 1.2076904296875) / 1000.0);
+    Serial.printf("\nAirBeamMini:%s%s\n%02dM/%02dD/%sY% 02dh:%02dm:%02ds %3.2fV(Not Averaged)\n", BLEmac.c_str(), firmwareversion.c_str(), months, days, printDigitsYear(years).c_str(), hours, mins, secs, round(analogRead(vmeas) * 1.2076904296875) / 1000.0);
   }
   if (b == '`') {
-    Serial.println(F("|AirBeam3 Pauser||Now Exit when Entered '' or Auto Exit after 60 Seconds|"));
+    Serial.println(F("|AirBeamMini Pauser||Now Exit when Entered '' or Auto Exit after 60 Seconds|"));
     String c = "";
     starttime = millis();
     while (1) {
@@ -752,7 +752,7 @@ void serial_debugger() {
     }
   }
   if (b == '-') {
-    Serial.println(F("Resetting AirBeam3 Error Counters"));
+    Serial.println(F("Resetting AirBeamMini Error Counters"));
 
     EEPROMString = F("0");
     EEPROM.write(15, EEPROMString.length());
@@ -785,7 +785,7 @@ void serial_debugger() {
       load_saved_config();
     }
     if (b == '\\') { /* 92 is \ */
-      Serial.println(F("AirBeam3 Comprehensive System Check"));
+      Serial.println(F("AirBeamMini Comprehensive System Check"));
       ESPble_resets = F("");
       for (i = 0; i < EEPROM.read(15); i++) {
         ESPble_resets += (char)EEPROM.read(1500 + i);
@@ -820,7 +820,7 @@ void serial_debugger() {
       refreshFile("/BLE.csv");
       refreshFile("/WiFi.csv");
 
-      Serial.println(F("Checking AirBeam3 Plantower:"));
+      Serial.println(F("Checking AirBeamMini Plantower:"));
       sensor_average();
       mode_set_eeprom = EEPROM.read(0);  // Saving EEPROM location 0 to use later in the code
       Serial.print(F("Current Mode:"));
@@ -846,7 +846,7 @@ void serial_debugger() {
     if (b == '/') { /* 47 is / */
       int battery_flag = 0;
       int plantower_count_flag = 0;
-      Serial.println(F("AirBeam3 System Checker"));
+      Serial.println(F("AirBeamMini System Checker"));
       for (i = 0; i <= 100; i++) {
         white(i);
         Vmeas(1);
@@ -973,7 +973,7 @@ void setup() {
   char chipid11 = (chipid & 0x00000000000000F0) >> 4;
   char chipid12 = (chipid & 0x000000000000000F);
   BLEmac = String(chipid11, HEX) + String(chipid12, HEX) + String(chipid9, HEX) + String(chipid10, HEX) + String(chipid7, HEX) + String(chipid8, HEX) + String(chipid5, HEX) + String(chipid6, HEX) + String(chipid3, HEX) + String(chipid4, HEX) + String(chipid1, HEX) + String(chipid2, HEX);
-  BLEDevice::init((String(F("AirBeam3:")) + BLEmac).c_str());
+  BLEDevice::init((String(F("AirBeamMini:")) + BLEmac).c_str());
   BLEDevice::setMTU(517);
   uint16_t SERVICE_UUID = 0xFFDD;
   uint16_t WRITE_READ_UUID = 0xFFDE;
@@ -1039,7 +1039,7 @@ void setup() {
   //pAdvertising->setScanResponse(true);
   //pAdvertising->setMinPreferred(0x06);  // functions that help with iPhone connections issue
   //pAdvertising->setMaxPreferred(0x12);
-  //BLEDevice::init((String(F("AirBeam3|")) + BLEmac + firmwareversion).c_str());
+  //BLEDevice::init((String(F("AirBeamMini|")) + BLEmac + firmwareversion).c_str());
   //esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT, ESP_PWR_LVL_P9);
   //esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_ADV, ESP_PWR_LVL_P9);
   //esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_SCAN, ESP_PWR_LVL_P9);
@@ -1052,7 +1052,7 @@ void setup() {
   Serial.println();
   sensors();
   RTCgettime();
-  Serial.printf("AirBeam3:%s%s\n%02dM/%02dD/%sY% 02dh:%02dm:%02ds ", BLEmac.c_str(), firmwareversion.c_str(), months, days, printDigitsYear(years).c_str(), hours, mins, secs);
+  Serial.printf("AirBeamMini:%s%s\n%02dM/%02dD/%sY% 02dh:%02dm:%02ds ", BLEmac.c_str(), firmwareversion.c_str(), months, days, printDigitsYear(years).c_str(), hours, mins, secs);
   Vmeas(20);
   Serial.println();
   Serial.print(F("File System Mount:"));
