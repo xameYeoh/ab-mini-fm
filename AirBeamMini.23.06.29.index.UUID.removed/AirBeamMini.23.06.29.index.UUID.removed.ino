@@ -35,13 +35,8 @@ BLEServer* pServer = NULL;
 BLEScan* pBLEScan = NULL;
 BLECharacteristic* pCharacteristicWriteRead = NULL;
 BLECharacteristic* pCharacteristicSDSync = NULL;
-BLECharacteristic* pCharacteristicTempC = NULL;
-BLECharacteristic* pCharacteristicTempF = NULL;
-BLECharacteristic* pCharacteristicTempK = NULL;
-BLECharacteristic* pCharacteristicHumi = NULL;
 BLECharacteristic* pCharacteristicPM1_0 = NULL;
 BLECharacteristic* pCharacteristicPM2_5 = NULL;
-BLECharacteristic* pCharacteristicPM10_0 = NULL;
 BLECharacteristic* pCharacteristicBatteryLevel = NULL;
 BLECharacteristic* pCharacteristic = NULL;
 
@@ -978,13 +973,8 @@ void setup() {
   uint16_t SERVICE_UUID = 0xFFDD;
   uint16_t WRITE_READ_UUID = 0xFFDE;
   uint16_t SDSYNC_UUID = 0xFFDF;
-  uint16_t TEMPC_UUID = 0xFFE0;
-  uint16_t TEMPF_UUID = 0xFFE1;
-  uint16_t TEMPK_UUID = 0xFFE2;
-  uint16_t HUMI_UUID = 0xFFE3;
   uint16_t PM1_0_UUID = 0xFFE4;
   uint16_t PM2_5_UUID = 0xFFE5;
-  uint16_t PM10_0_UUID = 0xFFE6;
   uint16_t BATTERYLEVEL_UUID = 0xFFE7;
   pServer = BLEDevice::createServer();
   pService = pServer->createService(BLEUUID((uint16_t)SERVICE_UUID), 50, 0);  //Characteristics(Services),Handles
@@ -995,40 +985,20 @@ void setup() {
   pCharacteristicSDSync = pService->createCharacteristic(
                             BLEUUID((uint16_t)SDSYNC_UUID),
                             BLECharacteristic::PROPERTY_NOTIFY);
-  pCharacteristicTempC = pService->createCharacteristic(
-                           BLEUUID((uint16_t)TEMPC_UUID),
-                           BLECharacteristic::PROPERTY_NOTIFY);
-  pCharacteristicTempF = pService->createCharacteristic(
-                           BLEUUID((uint16_t)TEMPF_UUID),
-                           BLECharacteristic::PROPERTY_NOTIFY);
-  pCharacteristicTempK = pService->createCharacteristic(
-                           BLEUUID((uint16_t)TEMPK_UUID),
-                           BLECharacteristic::PROPERTY_NOTIFY);
-  pCharacteristicHumi = pService->createCharacteristic(
-                          BLEUUID((uint16_t)HUMI_UUID),
-                          BLECharacteristic::PROPERTY_NOTIFY);
   pCharacteristicPM1_0 = pService->createCharacteristic(
                            BLEUUID((uint16_t)PM1_0_UUID),
                            BLECharacteristic::PROPERTY_NOTIFY);
   pCharacteristicPM2_5 = pService->createCharacteristic(
                            BLEUUID((uint16_t)PM2_5_UUID),
                            BLECharacteristic::PROPERTY_NOTIFY);
-  pCharacteristicPM10_0 = pService->createCharacteristic(
-                            BLEUUID((uint16_t)PM10_0_UUID),
-                            BLECharacteristic::PROPERTY_NOTIFY);
   pCharacteristicBatteryLevel = pService->createCharacteristic(
                                   BLEUUID((uint16_t)BATTERYLEVEL_UUID),
                                   BLECharacteristic::PROPERTY_NOTIFY);
   pCharacteristicWriteRead->setCallbacks(new Receive());
   pCharacteristicWriteRead->addDescriptor(new BLE2902());
   pCharacteristicSDSync->addDescriptor(new BLE2902());
-  pCharacteristicTempC->addDescriptor(new BLE2902());
-  pCharacteristicTempF->addDescriptor(new BLE2902());
-  pCharacteristicTempK->addDescriptor(new BLE2902());
-  pCharacteristicHumi->addDescriptor(new BLE2902());
   pCharacteristicPM1_0->addDescriptor(new BLE2902());
   pCharacteristicPM2_5->addDescriptor(new BLE2902());
-  pCharacteristicPM10_0->addDescriptor(new BLE2902());
   pCharacteristicBatteryLevel->addDescriptor(new BLE2902());
   pService->start();
   pAdvertising = BLEDevice::getAdvertising();
